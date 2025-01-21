@@ -1,17 +1,13 @@
 var mysql = require('mysql');
 var express = require('express')
-
-
 const app = express()
-const port = 3001
+const port = 3000
 
-/* Sean buenos y no miren la contraseña segura de la Base de datos */
 var con = mysql.createConnection({
     host: "localhost",
-    user: {{USER}},
-    password: {{PASSWORD}},
+    user: "workshop",
+    password: "123456",
     database: "workshop"
-
   });
   
   con.connect(function(err) {
@@ -19,11 +15,9 @@ var con = mysql.createConnection({
     console.log("Connected!");
   });
 
-
   app.get('/', (req, res) => {
     res.status(200).send('Blog increible!');
   })
-
   
   app.get('/api/posts', function(request,response) {
     con.query('SELECT * FROM post', function(err, rows, fields) {
@@ -35,9 +29,8 @@ var con = mysql.createConnection({
     });
   });
 
-
   app.get('/api/post/:id', function(request,response) {
-    con.query('SELECT * FROM post where id = ?' ,[request.params.id], function(err, rows, fields) {
+    con.query('SELECT * FROM post where id = ' + request.params.id, function(err, rows, fields) {
       if (err) {
         return response.send(500, err.message);
       }
@@ -46,7 +39,6 @@ var con = mysql.createConnection({
       return response.status(200).send(thedata);
     });
   });
-
 
   app.get('/api/postSeguro/:id', function(request,response) {
     con.query('SELECT * FROM post where id = ?' ,[request.params.id], function(err, rows, fields) {
@@ -59,9 +51,6 @@ var con = mysql.createConnection({
     });
   });
 
-
-
   app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
   })
-
