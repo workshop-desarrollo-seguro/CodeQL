@@ -48,6 +48,7 @@ var con = mysql.createConnection({
       thedata = ({'Result' : rows});
   
       return response.status(200).send(thedata);
+        
     });
   });
 
